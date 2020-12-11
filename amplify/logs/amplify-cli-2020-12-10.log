@@ -1,0 +1,23 @@
+2020-12-10T22:02:55.670Z|info : amplify init core  {"appId":"[***]qgowxi","yes":false}
+2020-12-10T22:06:46.341Z|info : amplify init core  
+2020-12-10T22:07:12.758Z|info : amplify-provider-awscloudformation.amplify-service-permission-check.checkAmplifyServiceIAMPermission.amplifyClient.listApps([])
+2020-12-10T22:07:13.503Z|info : amplify-provider-awscloudformation.amplify-service-manager.init.amplifyClient.createApp([{"environmentVariables":{"_LIVE_PACKAGE_UPDATES":"[{\"pkg\":\"@aws-amplify/cli\",\"type\":\"npm\",\"version\":\"latest\"}]"}}])
+2020-12-10T22:08:54.505Z|info : amplify init core  
+2020-12-10T22:09:31.010Z|info : amplify-provider-awscloudformation.amplify-service-permission-check.checkAmplifyServiceIAMPermission.amplifyClient.listApps([])
+2020-12-10T22:09:31.464Z|info : amplify-provider-awscloudformation.amplify-service-manager.init.amplifyClient.createApp([{"environmentVariables":{"_LIVE_PACKAGE_UPDATES":"[{\"pkg\":\"@aws-amplify/cli\",\"type\":\"npm\",\"version\":\"latest\"}]"}}])
+2020-12-10T22:09:47.200Z|info : amplify init core  
+2020-12-10T22:10:46.596Z|info : amplify-provider-awscloudformation.amplify-service-permission-check.checkAmplifyServiceIAMPermission.amplifyClient.listApps([])
+2020-12-10T22:10:47.643Z|info : amplify-provider-awscloudformation.amplify-service-manager.init.amplifyClient.createApp([{"environmentVariables":{"_LIVE_PACKAGE_UPDATES":"[{\"pkg\":\"@aws-amplify/cli\",\"type\":\"npm\",\"version\":\"latest\"}]"}}])
+2020-12-10T22:11:08.483Z|info : amplify init core  
+2020-12-10T22:11:53.279Z|info : amplify-provider-awscloudformation.amplify-service-permission-check.checkAmplifyServiceIAMPermission.amplifyClient.listApps([])
+2020-12-10T22:11:53.484Z|info : amplify-provider-awscloudformation.amplify-service-manager.init.amplifyClient.createApp([{"environmentVariables":{"_LIVE_PACKAGE_UPDATES":"[{\"pkg\":\"@aws-amplify/cli\",\"type\":\"npm\",\"version\":\"latest\"}]"}}])
+2020-12-10T22:12:36.145Z|info : amplify init core  {"appId":"[***]qgowxi","yes":false}
+2020-12-10T22:13:09.569Z|info : amplify init core  {"appId":"[***]qgowxi","yes":false}
+2020-12-10T22:17:19.716Z|info : amplify configure core  
+2020-12-10T22:19:22.945Z|info : amplify init core  
+2020-12-10T22:20:02.734Z|info : amplify-provider-awscloudformation.amplify-service-permission-check.checkAmplifyServiceIAMPermission.amplifyClient.listApps([])
+2020-12-10T22:20:02.949Z|info : amplify-provider-awscloudformation.amplify-service-manager.init.amplifyClient.createApp([{"environmentVariables":{"_LIVE_PACKAGE_UPDATES":"[{\"pkg\":\"@aws-amplify/cli\",\"type\":\"npm\",\"version\":\"latest\"}]"}}])
+2020-12-10T22:20:13.747Z|info : amplify init core  
+2020-12-10T22:21:05.796Z|info : amplify-provider-awscloudformation.amplify-service-permission-check.checkAmplifyServiceIAMPermission.amplifyClient.listApps([])
+2020-12-10T22:21:06.048Z|info : amplify-provider-awscloudformation.amplify-service-manager.init.amplifyClient.createApp([{"environmentVariables":{"_LIVE_PACKAGE_UPDATES":"[{\"pkg\":\"@aws-amplify/cli\",\"type\":\"npm\",\"version\":\"latest\"}]"}}])
+2020-12-10T22:22:55.521Z|info : amplify init core  {"appId":"[***]qgowxi","yes":false}
