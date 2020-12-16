@@ -1,6 +1,4 @@
 {
-    "identityPoolName": "amplifyappbb9f10e8_identitypool_bb9f10e8",
-    "allowUnauthenticatedIdentities": false,
     "resourceNameTruncated": "amplifbb9f10e8",
     "userPoolName": "amplifyappbb9f10e8_userpool_bb9f10e8",
     "autoVerifiedAttributes": [
@@ -12,8 +10,8 @@
     ],
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
-    "emailVerificationSubject": "Your verification code",
-    "emailVerificationMessage": "Your verification code is {####}",
+    "emailVerificationSubject": "reset password",
+    "emailVerificationMessage": "'{####}'",
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
@@ -21,7 +19,7 @@
         "email"
     ],
     "userpoolClientGenerateSecret": true,
-    "userpoolClientRefreshTokenValidity": 30,
+    "userpoolClientRefreshTokenValidity": "60",
     "userpoolClientWriteAttributes": [
         "email"
     ],
@@ -32,7 +30,7 @@
     "userpoolClientSetAttributes": false,
     "sharedId": "bb9f10e8",
     "resourceName": "amplifyappbb9f10e8",
-    "authSelections": "identityPoolAndUserPool",
+    "authSelections": "userPoolOnly",
     "authRoleArn": {
         "Fn::GetAtt": [
             "AuthRole",
@@ -45,13 +43,16 @@
             "Arn"
         ]
     },
-    "useDefault": "defaultSocial",
+    "useDefault": "manual",
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "dependsOn": [],
-    "hostedUI": true,
-    "hostedUIDomainName": "amplifyapp",
-    "authProvidersUserPool": [],
-    "hostedUIProviderMeta": "[]",
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\",\"https://master.d3gx7abb5qpp0j.amplifyapp.com/\"],\"LogoutURLs\":[\"http://localhost:3000/\",\"https://master.d3gx7abb5qpp0j.amplifyapp.com/\"]}"
+    "hostedUI": false,
+    "userPoolGroups": false,
+    "adminQueries": false,
+    "triggers": "{}",
+    "parentStack": {
+        "Ref": "AWS::StackId"
+    },
+    "permissions": []
 }
