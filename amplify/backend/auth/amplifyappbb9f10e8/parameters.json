@@ -1,4 +1,6 @@
 {
+    "identityPoolName": "amplifyappbb9f10e8_identitypool_baceeb85",
+    "allowUnauthenticatedIdentities": false,
     "resourceNameTruncated": "amplifbb9f10e8",
     "userPoolName": "amplifyappbb9f10e8_userpool_bb9f10e8",
     "autoVerifiedAttributes": [
@@ -30,7 +32,7 @@
     "userpoolClientSetAttributes": false,
     "sharedId": "bb9f10e8",
     "resourceName": "amplifyappbb9f10e8",
-    "authSelections": "userPoolOnly",
+    "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
             "AuthRole",

@@ -1,38 +1,72 @@
 .App {
-  text-align: center;
+  width: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.main {
+  margin: 10vh 30vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  border: 2px solid #191970;
+  padding-bottom: 30px;
+  background-color: #FFDAB9;
+  color: #191970;
+  width: 40vw;
 }
 
-.App-link {
-  color: #61dafb;
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+input {
+  color: #191970; 
+  border-color: #191970;
+  border-width: 1px;
+  width: 200px;
+}
+
+input::placeholder {
+  color: #191970;
+}
+
+button {
+  color: #191970; 
+  border-color: #191970;
+  border-width: 1px;
+}
+
+.inputFileContainer {
+  padding:5px;
+  font-size: 13px;
+  font-weight: 500;
+  background-color: white;
+  color: #191970; 
+  border: 1px solid #191970;
+  position: relative;
+  text-align: center;
+  float: left;
+  cursor: pointer;
+  width: 120px;
+}
+
+.file {
+  position: absolute;
+  z-index: 1000;
+  opacity: 0;
+  cursor: pointer;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+
+label {
+  font-size: 13px;
+  font-weight: 500;
+  padding-left: 10px;
+  vertical-align: middle;
 }
