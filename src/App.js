@@ -48,9 +48,14 @@ function App() {
   //Creates a note by calling create note mutation.
   async function createNote() {
     if (!formData.name || !formData.description) return;
-    await API.graphql({ query: createNoteMutation, variables: { input: formData } });
-    if (formData.image) {
-      const image = await Storage.get(formData.image);
+    let data = {
+      name: formData.name,
+      description: formData.description,
+      image: formData.image !== "No files chosen" ? formData.image : null
+    }
+    await API.graphql({ query: createNoteMutation, variables: { input: data } });
+    if (data.image) {
+      const image = await Storage.get(data.image);
       formData.image = image;
     }
     setFormData(initialFormState);

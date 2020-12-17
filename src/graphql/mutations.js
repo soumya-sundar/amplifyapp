@@ -39,6 +39,7 @@ export const deleteNote = /* GraphQL */ `
     deleteNote(input: $input, condition: $condition) {
       id
       name
+      image
       description
       createdAt
       updatedAt
