@@ -37,7 +37,6 @@ function App() {
     const notesFromAPI = apiData.data.listNotes.items;
     await Promise.all(notesFromAPI.map(async note => {
       if (note.image) {
-        console.log(note.image);
         const image = await Storage.get(note.image);
         note.image = image;
       }
@@ -51,7 +50,6 @@ function App() {
     if (!formData.name || !formData.description) return;
     await API.graphql({ query: createNoteMutation, variables: { input: formData } });
     if (formData.image) {
-      console.log(formData.image);
       const image = await Storage.get(formData.image);
       formData.image = image;
     }
@@ -103,7 +101,7 @@ function App() {
                   <p>{note.description}</p>
                   <button onClick={() => deleteNote(note)}>Delete note</button>
                   {
-                    note.image && <img src={note.image} style={{width: 400}} />
+                    note.image && <img src={note.image} alt='source unavailable' style={{width: 400}} />
                   } 
                 </div>
               ))
