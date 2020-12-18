@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { API, Storage } from 'aws-amplify';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
-import { listNotes } from './graphql/queries';
+import { listNotes, getNote } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
 
 const initialFormState = { name: '', description: '', image: 'No files chosen' };
@@ -17,26 +17,28 @@ function App() {
   }, []);
 
 
-  //Function invoked when file input is changed
+  //Function to handle change in file input.
   async function onChange(e) {
     if (!e.target.files[0]) return
     const file = e.target.files[0];
     setFormData({ ...formData, image: file.name });
+    //File added to S3 Storage
     await Storage.put(file.name, file);
     fetchNotes();
   }
 
+  // Function to set event target value to null to prevent form reload
   async function onClick(e) {
-    // Set event target value to null to prevent form reload
     e.target.value = null;
   }
 
-  //List notes on the form by calling graphql query.
+  //Function to display notes on the form.
   async function fetchNotes() {
     const apiData = await API.graphql({ query: listNotes });
     const notesFromAPI = apiData.data.listNotes.items;
     await Promise.all(notesFromAPI.map(async note => {
       if (note.image) {
+        //Check image in S3 Storage
         const image = await Storage.get(note.image);
         note.image = image;
       }
@@ -55,7 +57,9 @@ function App() {
     }
     await API.graphql({ query: createNoteMutation, variables: { input: data } });
     if (data.image) {
+      //Check image in S3 storage
       const image = await Storage.get(data.image);
+      //Set form data image field
       formData.image = image;
     }
     setFormData(initialFormState);
@@ -64,8 +68,22 @@ function App() {
 
   //Deletes a note by calling delete note mutation.
   async function deleteNote({ id }) {
-    await API.graphql({ query: deleteNoteMutation, variables: { input: { id } }});
-    fetchNotes();
+    //GraphQL query to find image name using note id    
+    API.graphql({ query: getNote, variables: { id: id }})
+    .then(result => {
+      const image = result.data.getNote.image;
+      if(image !== null){
+        //Delete image from S3 storage
+        Storage.remove(image)
+        .then()
+        .catch(err => console.log(err));
+      }
+    })
+    .catch(err => console.log(err))
+    .finally(() => {
+      API.graphql({ query: deleteNoteMutation, variables: { input: { id } }});
+      fetchNotes();
+    })
   }
 
   return (
