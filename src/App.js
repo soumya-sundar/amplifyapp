@@ -4,6 +4,7 @@ import { API, Storage } from 'aws-amplify';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { listNotes, getNote } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
+import { downloadBlob } from './downloadBlob';
 
 const initialFormState = { name: '', description: '', image: 'No files chosen' };
 
@@ -22,8 +23,25 @@ function App() {
     if (!e.target.files[0]) return
     const file = e.target.files[0];
     setFormData({ ...formData, image: file.name });
-    //File added to S3 Storage
-    await Storage.put(file.name, file);
+
+    //Check if file exists in S3 storage
+    console.log(file.name);
+    Storage.get(file.name, { download: true })
+    .then(res => {
+      console.log(res);
+      const imageBlob = downloadBlob(res.Body, file.name);
+      console.log(imageBlob);
+      // image.Body is a Blob i.e., If file exists reset the form
+      if(imageBlob.Body) {
+        imageBlob.Body.text().then(string => { 
+          alert("This image is already associated with another note. Please select another image.")
+          setFormData(initialFormState);
+        })
+      } else {
+        //File added to S3 Storage
+        Storage.put(file.name, file);
+      }
+    })
     fetchNotes();
   }
 
