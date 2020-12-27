@@ -42,6 +42,11 @@ function App() {
         Storage.put(file.name, file);
       }
     })
+    .catch(err => {
+      Storage.put(file.name, file)
+      .then (result => console.log(result))
+      .catch(err => console.log(err));
+    })
     fetchNotes();
   }
 
