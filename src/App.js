@@ -27,25 +27,19 @@ function App() {
     Storage.get(file.name, { download: true })
     .then(res => {
       console.log(res);
-      // If response has body field with type as Blob which means file exists.
-      //Display warning message and reset the form.
-      res.blob().then(function(myBlob) {
-        console.log(myBlob);
+      // If response has body field with type as Blob and size > 0 which means file exists.
+      // Display warning message and reset the form.
+      if(res.Body.size > 0){
         alert("This image is already associated with another note. Please select another image.")
         setFormData(initialFormState);
-      })
-      .catch((err) =>{
+      } else {
         //File added to S3 Storage
         Storage.put(file.name, file)
         .then (result => console.log(result))
         .catch(err => console.log(err));
-      })
+      }
     })
-    .catch(err => {
-      Storage.put(file.name, file)
-      .then (result => console.log(result))
-      .catch(err => console.log(err));
-    })
+    .catch(err => console.log(err))
     fetchNotes();
   }
 
