@@ -11,6 +11,10 @@ function App() {
   const [notes, setNotes] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
   const style = {marginBottom: '10px'};
+  const imageStyle = {
+    maxWidth: '100%',
+    height: 'auto'
+  }
 
   useEffect(() => {
     fetchNotes();
@@ -30,7 +34,7 @@ function App() {
       // Display warning message and reset the form.
       if(res.Body.size > 0) {
         alert("This image is already associated with another note. Please select another image.")
-        setFormData(initialFormState);
+        setFormData({ ...formData, image: 'No files chosen'})
       } else {
         //File added to S3 Storage
         Storage.put(file.name, file)
@@ -146,10 +150,12 @@ function App() {
                 <div key={note.id || note.name}>
                   <h2>{note.name}</h2>
                   <p>{note.description}</p>
+                  <div>
+                    {
+                      note.image && <img src={note.image} alt='source unavailable' style={imageStyle} />
+                    }
+                  </div>
                   <button onClick={() => deleteNote(note)}>Delete note</button>
-                  {
-                    note.image && <img src={note.image} alt='source unavailable' style={{width: 400}} />
-                  } 
                 </div>
               ))
             }
