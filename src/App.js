@@ -26,20 +26,28 @@ function App() {
     //Check if file exists in S3 storage
     Storage.get(file.name, { download: true })
     .then(res => {
-      console.log(res);
       // If response has body field with type as Blob and size > 0 which means file exists.
       // Display warning message and reset the form.
-      if(res.Body.size > 0){
+      if(res.Body.size > 0) {
         alert("This image is already associated with another note. Please select another image.")
         setFormData(initialFormState);
       } else {
         //File added to S3 Storage
         Storage.put(file.name, file)
-        .then (result => console.log(result))
+        .then ()
         .catch(err => console.log(err));
       }
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      //If file doesn't exist in S3 storage then add it.
+      if(err.response.status === 404) {
+        Storage.put(file.name, file)
+        .then ()
+        .catch(err => console.log(err));       
+      } else {
+        console.log(err);
+      }
+    })
     fetchNotes();
   }
 
