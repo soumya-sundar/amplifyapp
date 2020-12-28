@@ -30,7 +30,7 @@ function App() {
       // Display warning message and reset the form.
       if(res.Body.size > 0) {
         alert("This image is already associated with another note. Please select another image.")
-        setFormData(initialFormState);
+        setFormData({ ...formData, image: 'No files chosen'})
       } else {
         //File added to S3 Storage
         Storage.put(file.name, file)
