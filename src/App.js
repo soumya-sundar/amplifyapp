@@ -11,6 +11,8 @@ function App() {
   const [notes, setNotes] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
   const style = {marginBottom: '10px'};
+
+  //Responsive image css
   const imageStyle = {
     maxWidth: '100%',
     height: 'auto'
