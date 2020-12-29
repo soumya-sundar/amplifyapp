@@ -118,8 +118,10 @@ function App() {
 
   return (
     <div className="App">
+      <div className="header">
+        <h1>Notes</h1>
+      </div>
       <div className="main">
-        <h1>My Notes App</h1>
         <div className="container">
           <input
             onChange={e => setFormData({ ...formData, 'name': e.target.value})}
@@ -154,7 +156,7 @@ function App() {
                   <p>{note.description}</p>
                   <div>
                     {
-                      note.image && <img src={note.image} alt='source unavailable' style={imageStyle} />
+                      note.image && <img src={note.image} alt='preview unavailable' style={imageStyle} />
                     }
                   </div>
                   <button onClick={() => deleteNote(note)}>Delete note</button>
