@@ -11,6 +11,7 @@ class Alert extends React.Component {
   onClick = (e) => {
     e.preventDefault();
     this.setState({close: true});
+    this.props.onClose();
   }
 
   render() {

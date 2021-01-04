@@ -6,7 +6,15 @@ import { listNotes, getNote } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
 import Alert from './component/Alert/Alert';
 
-const initialFormState = { name: '', description: '', image: 'No files chosen', alert: { type: 0, message: null }};
+const initialFormState = { 
+  name: '',
+  description: '',
+  image: 'No files chosen',
+  alert: {
+    type: 0,
+    message: null,
+  }
+};
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -23,13 +31,16 @@ function App() {
     fetchNotes();
   }, []);
 
+  async function onClose () {
+    setFormData({...formData, 'alert': {'type': 0}, 'image': 'No file chosen'});
+  }
+
   //Function to handle change in file input.
   async function onChange(e) {
     e.preventDefault();
     if (!e.target.files[0]) return
     const file = e.target.files[0];
     setFormData({ ...formData, image: file.name });
-
     //Check if file exists in S3 storage
     Storage.get(file.name, { download: true })
     .then(res => {
@@ -39,9 +50,8 @@ function App() {
         setFormData({ ...formData,
           'alert': {
             'type': 2,
-            'message': "This image is already associated with another note. Please select another image."
+            'message': "This image is already associated with another note. Please select another image.",
           },
-          image: 'No files chosen'
         });
       } else {
         //File added to S3 Storage
@@ -60,6 +70,12 @@ function App() {
         console.log(err);
       }
     })
+    /*setFormData({ ...formData,
+       'alert': {
+        'type': 2,
+        'message': "This image is already associated with another note. Please select another image.",
+      },
+    });*/
     fetchNotes();
   }
 
@@ -162,7 +178,7 @@ function App() {
             />
           </div>
           <label>{formData.image}</label>
-          {formData.alert.type !== 0 && <Alert type={formData.alert.type} message={formData.alert.message} />}
+{formData.alert.type !== 0 && <Alert type={formData.alert.type} message={formData.alert.message} onClose={(isClosed, e) => onClose(isClosed, e)} />}
           <div style={{paddingTop: '10px'}}>
             <button type="button" onClick={createNote}>Create Note</button>
           </div>
