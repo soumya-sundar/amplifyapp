@@ -4,8 +4,9 @@ import { API, Storage } from 'aws-amplify';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { listNotes, getNote } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
+import Alert from './component/Alert/Alert';
 
-const initialFormState = { name: '', description: '', image: 'No files chosen' };
+const initialFormState = { name: '', description: '', image: 'No files chosen', alert: { type: 0, message: null }};
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -22,9 +23,9 @@ function App() {
     fetchNotes();
   }, []);
 
-
   //Function to handle change in file input.
   async function onChange(e) {
+    e.preventDefault();
     if (!e.target.files[0]) return
     const file = e.target.files[0];
     setFormData({ ...formData, image: file.name });
@@ -35,8 +36,13 @@ function App() {
       // If response has body field with type as Blob and size > 0 which means file exists.
       // Display warning message and reset the form.
       if(res.Body.size > 0) {
-        alert("This image is already associated with another note. Please select another image.")
-        setFormData({ ...formData, image: 'No files chosen'})
+        setFormData({ ...formData,
+          'alert': {
+            'type': 2,
+            'message': "This image is already associated with another note. Please select another image."
+          },
+          image: 'No files chosen'
+        });
       } else {
         //File added to S3 Storage
         Storage.put(file.name, file)
@@ -78,7 +84,8 @@ function App() {
   }
 
   //Creates a note by calling create note mutation.
-  async function createNote() {
+  async function createNote(e) {
+    e.preventDefault();
     if (!formData.name || !formData.description) return;
     let data = {
       name: formData.name,
@@ -97,7 +104,8 @@ function App() {
   }
 
   //Deletes a note by calling delete note mutation.
-  async function deleteNote({ id }) {
+  async function deleteNote({id}, e) {
+    e.preventDefault();
     //GraphQL query to find image name using note id    
     API.graphql({ query: getNote, variables: { id: id }})
     .then(result => {
@@ -118,22 +126,31 @@ function App() {
 
   return (
     <div className="App">
-      <div className="header">
+      <header>
         <h1>Notes</h1>
-      </div>
-      <div className="main">
+      </header>
+      <form className="main">
         <div className="container">
           <input
             onChange={e => setFormData({ ...formData, 'name': e.target.value})}
             placeholder="Note name"
             value={formData.name}
             style={style}
+            minLength={4}
+            maxLength={20}
+            size={20}
+            spellCheck
+            required
           />
           <input
             onChange={e => setFormData({ ...formData, 'description': e.target.value})}
             placeholder="Note description"
             value={formData.description}
             style={style}
+            minLength={4}
+            maxLength={50}
+            size={50}
+            spellCheck
           />
           <div className="inputFileContainer" style={style}>
             Choose File
@@ -145,6 +162,7 @@ function App() {
             />
           </div>
           <label>{formData.image}</label>
+          {formData.alert.type !== 0 && <Alert type={formData.alert.type} message={formData.alert.message} />}
           <div style={{paddingTop: '10px'}}>
             <button type="button" onClick={createNote}>Create Note</button>
           </div>
@@ -159,14 +177,22 @@ function App() {
                       note.image && <img src={note.image} alt='preview unavailable' style={imageStyle} />
                     }
                   </div>
-                  <button onClick={() => deleteNote(note)}>Delete note</button>
+                  <button onClick={e=>deleteNote(note,e)}>Delete note</button>
                 </div>
               ))
             }
           </div>
         </div>
-        <AmplifySignOut/>
-      </div>
+        <AmplifySignOut />
+      </form>
+      <footer>
+        <div className="copyright">
+          <p>Copyright 2020 - Soumya Sundarrajan</p>
+        </div>
+        <div className="contactUs">
+          <p>Contact Us - soumya.rajan86@gmail.com</p>
+        </div>
+      </footer>
     </div>
   );
 }

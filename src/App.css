@@ -2,7 +2,7 @@
   width: 100%;
 }
 
-.header {
+header {
   width: 100%;
   line-height: 80px;
   height: 80px;
@@ -12,7 +12,7 @@
   text-align: center;
 }
 
-.header>h1 {
+header>h1 {
   margin-block-start: unset;
 }
 
@@ -50,6 +50,8 @@ button {
   color: rgb(139,69,19); 
   border-color: rgb(139,69,19);
   border-width: 1px;
+  background-color: white;
+  cursor: pointer;
 }
 
 .inputFileContainer {
@@ -84,9 +86,61 @@ label {
   vertical-align: middle;
 }
 
-.footer {
+footer {
   width: 100%;
-  height: 40px;
+  display: inline-block;
+  margin: 0 0;
+  height: 70px;
   background-color: rgb(139,69,19);
-  bottom:0;
+}
+
+footer>.copyright {
+  width: 50%;
+  float: left;
+}
+
+
+footer>.copyright>p {
+  padding-left: 10%;
+  color: rgb(245,222,179);
+  line-height: 70px;
+  margin: 0 0;
+  font-size: 0.8em;
+}
+
+footer .contactUs {
+  width: 50%;
+  float: right;
+}
+
+@media (max-width: 600px) {
+  footer>.copyright {
+    width: 100%;
+  }
+  footer>.copyright>p {
+    text-align: center;
+    padding: 0;
+  }
+  footer .contactUs {
+    width: 100%;
+    background-color: rgb(139,69,19);
+  }
+}
+
+footer .contactUs>p {
+  float: left;
+  margin: 0 0;
+  line-height: 70px;
+  text-decoration: none;
+  color: rgb(245,222,179);
+  text-align: center;
+  font-weight: bold; 
+  transition: all 0.3s;
+  font-size: 0.8em;
+  width: 100%;
+}
+
+footer .contactUs>p:hover {
+  background-color: #222;
+  transition: all 0.3s;
 }
