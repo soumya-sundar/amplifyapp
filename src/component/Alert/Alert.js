@@ -45,7 +45,7 @@ class Alert extends React.Component {
       );
     }
 
-    // Props type 3 is a error message
+    // Props type 3 is an error message
     if(type===3) {
       colorStyle = {color: 'rgb(139,0,0)', backgroundColor: 'rgb(255,228,225)'};
       output = (

@@ -17,15 +17,14 @@ header>h1 {
 }
 
 .main {
-  margin-left:30vw;
-  margin-right: 30vw;
+  margin: auto;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 30px;
   padding-bottom: 30px;
   color: rgb(139,69,19);
-  width: 40vw;
 }
 
 .container {

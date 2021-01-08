@@ -1,0 +1,83 @@
+/* Primary button */
+.primary {
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    height: 44px;
+    cursor: pointer;
+    padding: 0 50px;
+}
+
+.primaryAction {
+  background-color: green;
+  color: white;
+}
+
+.primaryNavigation {
+  background-color: rgb(100, 100, 240);
+  color: white;
+}
+
+.primaryLight {
+  background-color: white;
+  color: black;
+}
+
+.primaryDelete {
+  background-color: rgb(168, 14, 14);
+  color: white;
+}
+
+/* Secondary button */
+.secondary {
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  cursor: pointer;
+  height: 40px;
+  padding: 0 50px;
+  border-radius: 5px;
+}
+
+.secondaryAction {
+  background-color: rgb(245, 198, 12);
+  color: black;
+  border: 0;
+}
+
+.secondaryNavigation {
+  border-color: rgb(100, 100, 240);
+  background-color: white;
+  color: rgb(100, 100, 240);
+  border: 2px solid;    
+}
+
+.secondaryLight {
+  border-color: white;
+  background-color: unset;
+  color: white;
+  border: 2px solid;  
+}
+
+/* Tertiary button */
+.tertiary {
+  text-decoration: none;
+  border: 0;
+  background-color: unset;
+  padding: 0;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.tertiaryNavigation {
+  color: rgb(100, 100, 240);
+}
+
+.tertiaryLight {
+  color: white;
+}

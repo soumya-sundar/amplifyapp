@@ -5,6 +5,7 @@ import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { listNotes, getNote } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
 import Alert from './component/Alert/Alert';
+import Button from './component/Button/Button';
 
 const initialFormState = { 
   name: '',
@@ -26,6 +27,11 @@ function App() {
     maxWidth: '100%',
     height: 'auto'
   }
+
+  const deleteButtonStyle = {
+    height: '40px',
+    padding: '0 40px'
+  };
 
   useEffect(() => {
     fetchNotes();
@@ -153,8 +159,8 @@ function App() {
             value={formData.name}
             style={style}
             minLength={4}
-            maxLength={20}
-            size={20}
+            maxLength={50}
+            size={50}
             spellCheck
             required
           />
@@ -178,9 +184,14 @@ function App() {
             />
           </div>
           <label>{formData.image}</label>
-{formData.alert.type !== 0 && <Alert type={formData.alert.type} message={formData.alert.message} onClose={(isClosed, e) => onClose(isClosed, e)} />}
+          {formData.alert.type !== 0 &&
+          <Alert 
+            type={formData.alert.type}
+            message={formData.alert.message}
+            onClose={(isClosed, e) => onClose(isClosed, e)}
+          />}
           <div style={{paddingTop: '10px'}}>
-            <button type="button" onClick={createNote}>Create Note</button>
+            <Button type={1} onClick={createNote}>Create Note</Button>
           </div>
           <div style={{marginBottom: 30}}>
             {
@@ -193,7 +204,7 @@ function App() {
                       note.image && <img src={note.image} alt='preview unavailable' style={imageStyle} />
                     }
                   </div>
-                  <button onClick={e=>deleteNote(note,e)}>Delete note</button>
+                  <Button type={4} onClick={e=>deleteNote(note,e)} style={deleteButtonStyle}>Delete</Button>
                 </div>
               ))
             }
