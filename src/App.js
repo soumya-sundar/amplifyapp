@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import { API, Storage } from 'aws-amplify';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
@@ -6,21 +6,27 @@ import { listNotes, getNote } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
 import Alert from './component/Alert/Alert';
 import Button from './component/Button/Button';
+import Input from './component/Input/Input';
 
-const initialFormState = { 
-  name: '',
+const initialFormState = {
+  name:'',
   description: '',
   image: 'No files chosen',
   alert: {
     type: 0,
     message: null,
-  }
+  },
+  field: '',
+  clearFileInput: true
 };
 
 function App() {
   const [notes, setNotes] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
   const style = {marginBottom: '10px'};
+  const inputName = useRef(null);
+  const inputDescription = useRef(null);
+  const inputFile = useRef(null);
 
   //Responsive image css
   const imageStyle = {
@@ -30,25 +36,58 @@ function App() {
 
   const deleteButtonStyle = {
     height: '40px',
-    padding: '0 40px'
+    padding: '0 40px',
+    border: 'none'
   };
 
   useEffect(() => {
     fetchNotes();
+    inputName.current.focus();
   }, []);
 
   async function onClose () {
-    setFormData({...formData, 'alert': {'type': 0}, 'image': 'No file chosen'});
+    setFormData({...formData, 'alert': {'type': 0, message: null}});
+    if(formData.field === 'name') {
+      inputName.current.focus();
+    } else if(formData.field === 'description') {
+      inputDescription.current.focus();
+    } else if(formData.field === 'image') {
+      inputFile.current.focus();
+    }
+  }
+
+  //Function to handle onBlur event for input controls.
+  async function onBlur(alert, id) {
+    if(alert.type !== 0) {
+      if(id === 'name') {
+        setFormData({ ...formData,
+          'alert': {
+            type: alert.type,
+            message: alert.message
+          },
+          'name': '',
+          'field': id
+        });
+      } else if(id === 'description'){
+        setFormData({ ...formData,
+          'alert': {
+            type: alert.type,
+            message: alert.message
+          },
+          'description': '',
+          'field': id
+        });
+      }
+    }
   }
 
   //Function to handle change in file input.
-  async function onChange(e) {
-    e.preventDefault();
-    if (!e.target.files[0]) return
-    const file = e.target.files[0];
-    setFormData({ ...formData, image: file.name });
+  async function onChange(file) {
+    const fileName = file.name;
+    if (!file) return
+    setFormData({ ...formData, image: fileName, clearFileInput: false });
     //Check if file exists in S3 storage
-    Storage.get(file.name, { download: true })
+    Storage.get(fileName, { download: true })
     .then(res => {
       // If response has body field with type as Blob and size > 0 which means file exists.
       // Display warning message and reset the form.
@@ -58,10 +97,12 @@ function App() {
             'type': 2,
             'message': "This image is already associated with another note. Please select another image.",
           },
+          'image': '',
+          'field': "image"
         });
       } else {
         //File added to S3 Storage
-        Storage.put(file.name, file)
+        Storage.put(fileName, file)
         .then ()
         .catch(err => console.log(err));
       }
@@ -69,25 +110,14 @@ function App() {
     .catch(err => {
       //If file doesn't exist in S3 storage then add it.
       if(err.response.status === 404) {
-        Storage.put(file.name, file)
+        Storage.put(fileName, file)
         .then ()
         .catch(err => console.log(err));       
       } else {
         console.log(err);
       }
     })
-    /*setFormData({ ...formData,
-       'alert': {
-        'type': 2,
-        'message': "This image is already associated with another note. Please select another image.",
-      },
-    });*/
     fetchNotes();
-  }
-
-  // Function to set event target value to null to prevent form reload
-  async function onClick(e) {
-    e.target.value = null;
   }
 
   //Function to display notes on the form.
@@ -108,7 +138,15 @@ function App() {
   //Creates a note by calling create note mutation.
   async function createNote(e) {
     e.preventDefault();
-    if (!formData.name || !formData.description) return;
+    if (!formData.name) {
+      setFormData({ ...formData,
+        'alert': {
+          'type': 3,
+          'message': "Please enter a note name. This is a required field.",
+        },
+      });
+      return;
+    };
     let data = {
       name: formData.name,
       description: formData.description,
@@ -153,45 +191,47 @@ function App() {
       </header>
       <form className="main">
         <div className="container">
-          <input
-            onChange={e => setFormData({ ...formData, 'name': e.target.value})}
+          <Input
+            id={"name"}
+            type="text"
+            inputref={inputName}
+            onChange={e => setFormData({ ...formData, 'name': e.target.value })}
             placeholder="Note name"
             value={formData.name}
             style={style}
             minLength={4}
             maxLength={50}
             size={50}
-            spellCheck
+            onBlur={onBlur}
             required
           />
-          <input
-            onChange={e => setFormData({ ...formData, 'description': e.target.value})}
+          <Input
+            id={"description"}
+            type="text"
+            inputref={inputDescription}
+            onChange={e => setFormData({ ...formData, 'description': e.target.value })}
             placeholder="Note description"
             value={formData.description}
             style={style}
             minLength={4}
             maxLength={50}
             size={50}
-            spellCheck
+            onBlur={onBlur}
           />
-          <div className="inputFileContainer" style={style}>
-            Choose File
-            <input 
-              type="file"
-              className="file"
-              onChange={onChange}
-              onClick={onClick}
-            />
-          </div>
-          <label>{formData.image}</label>
+          <Input
+            type="file"
+            inputref={inputFile}
+            onChange={onChange}
+            clearFileInput={formData.clearFileInput}
+          />
           {formData.alert.type !== 0 &&
-          <Alert 
+          <Alert
             type={formData.alert.type}
             message={formData.alert.message}
-            onClose={(isClosed, e) => onClose(isClosed, e)}
+            onClose={onClose}
           />}
           <div style={{paddingTop: '10px'}}>
-            <Button type={1} onClick={createNote}>Create Note</Button>
+            <Button focus={false} type={1} onClick={createNote} style={{border: 'none'}}>Create Note</Button>
           </div>
           <div style={{marginBottom: 30}}>
             {
@@ -204,7 +244,7 @@ function App() {
                       note.image && <img src={note.image} alt='preview unavailable' style={imageStyle} />
                     }
                   </div>
-                  <Button type={4} onClick={e=>deleteNote(note,e)} style={deleteButtonStyle}>Delete</Button>
+                  <Button focus={false} type={4} onClick={e=>deleteNote(note,e)} style={deleteButtonStyle}>Delete</Button>
                 </div>
               ))
             }

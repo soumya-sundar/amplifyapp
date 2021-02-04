@@ -1,0 +1,16 @@
+input {
+    color: rgb(139,69,19); 
+    border-color: rgb(139,69,19);
+    border-width: 1px;
+    width: 200px;
+}
+  
+input::placeholder {
+  color: rgb(139,69,19);
+}
+
+input>button#file-upload-button {
+  color: rgb(139,69,19);
+  border-color: rgb(139,69,19);
+  border-width: 1px;
+}
