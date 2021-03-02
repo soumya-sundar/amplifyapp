@@ -257,7 +257,7 @@ function App() {
           <p>Copyright 2020 - Soumya Sundarrajan</p>
         </div>
         <div className="contactUs">
-          <p>Contact Us - soumya.rajan86@gmail.com</p>
+          <p>Contact Us - soumya.sundar@gmail.com</p>
         </div>
       </footer>
     </div>
