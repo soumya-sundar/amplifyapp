@@ -42,7 +42,6 @@ function App() {
 
   useEffect(() => {
     fetchNotes();
-    inputName.current.focus();
   }, []);
 
   async function onClose () {
@@ -189,67 +188,69 @@ function App() {
       <header>
         <h1>Notes</h1>
       </header>
-      <form className="main">
-        <div className="container">
-          <Input
-            id={"name"}
-            type="text"
-            inputref={inputName}
-            onChange={e => setFormData({ ...formData, 'name': e.target.value })}
-            placeholder="Note name"
-            value={formData.name}
-            style={style}
-            minLength={4}
-            maxLength={50}
-            size={50}
-            onBlur={onBlur}
-            required
-          />
-          <Input
-            id={"description"}
-            type="text"
-            inputref={inputDescription}
-            onChange={e => setFormData({ ...formData, 'description': e.target.value })}
-            placeholder="Note description"
-            value={formData.description}
-            style={style}
-            minLength={4}
-            maxLength={50}
-            size={50}
-            onBlur={onBlur}
-          />
-          <Input
-            type="file"
-            inputref={inputFile}
-            onChange={onChange}
-            clearFileInput={formData.clearFileInput}
-          />
-          {formData.alert.type !== 0 &&
-          <Alert
-            type={formData.alert.type}
-            message={formData.alert.message}
-            onClose={onClose}
-          />}
-          <div style={{paddingTop: '10px'}}>
-            <Button focus={false} type={1} onClick={createNote} style={{border: 'none'}}>Create Note</Button>
-          </div>
-          <div style={{marginBottom: 30}}>
+      <form className="container">
+        <main>
+          <section>
+            <Input
+              id={"name"}
+              type="text"
+              inputref={inputName}
+              onChange={e => setFormData({ ...formData, 'name': e.target.value })}
+              placeholder="Note name"
+              value={formData.name}
+              style={style}
+              minLength={4}
+              maxLength={50}
+              size={50}
+              onBlur={onBlur}
+              required
+            />
+            <Input
+              id={"description"}
+              type="text"
+              inputref={inputDescription}
+              onChange={e => setFormData({ ...formData, 'description': e.target.value })}
+              placeholder="Note description"
+              value={formData.description}
+              style={style}
+              minLength={4}
+              maxLength={50}
+              size={50}
+              onBlur={onBlur}
+            />
+            <Input
+              type="file"
+              inputref={inputFile}
+              onChange={onChange}
+              clearFileInput={formData.clearFileInput}
+            />
+            {formData.alert.type !== 0 &&
+            <Alert
+              type={formData.alert.type}
+              message={formData.alert.message}
+              onClose={onClose}
+            />}
+            <div style={{paddingTop: '10px'}}>
+              <Button focus={false} type={1} onClick={createNote} style={{border: 'none'}}>Create Note</Button>
+            </div>
+          </section>
+          <aside>
             {
               notes.map(note => (
-                <div key={note.id || note.name}>
+                <div key={note.id || note.name} style={{paddingBottom: '32px'}}>
                   <h2>{note.name}</h2>
                   <p>{note.description}</p>
-                  <div>
+                  <figure>
                     {
                       note.image && <img src={note.image} alt='preview unavailable' style={imageStyle} />
                     }
-                  </div>
+                  </figure>
                   <Button focus={false} type={4} onClick={e=>deleteNote(note,e)} style={deleteButtonStyle}>Delete</Button>
                 </div>
               ))
             }
-          </div>
-        </div>
+          </aside>
+        </main>
         <AmplifySignOut />
       </form>
       <footer>
