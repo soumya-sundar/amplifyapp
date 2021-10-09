@@ -44,6 +44,7 @@ function App() {
     fetchNotes();
   }, []);
 
+  //Funtion to handle alert closure
   async function onClose () {
     setFormData({...formData, 'alert': {'type': 0, message: null}});
     if(formData.field === 'name') {
